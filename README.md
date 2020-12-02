@@ -13,26 +13,10 @@ RESTful API for a Employee list web application.
 
 **1. Clone the application**
 ```bash
-git clone https://github.com/SergioRuy/TavernOfGuilds.git
+https://github.com/SergioRuyDev/employee-list-api.git
 ```
 
-**2. Create Mysql database and execute the migration**
-```bash
-create the new directory database: src/main/resources/db/migrations
-``` 
-- The API use Flyway DB Migrations, for execute your sql file, you should follow the convention below.
-
-<p align"center">
-  <img src="https://snipboard.io/2Kwnpv.jpg"/>
-</p>
-
-- **Prefix:** V for versioned, U for undo and R for repeatable migrations.
-- **Version:** Version with dots or underscores separate as many parts as you like (Not for repeatable migrations).
-- **Separator:** __ (two underscores).
-- **Description:** Underscores or spaces separate the words.
-- **Suffix:** .sql
-- The FlywayDB is automatic migration, on your IDE, you just need to go to the main class, run as Java Application
-and the migration will be done.
+**2. Create Mysql database and execute**
 
 **3. Change mysql username and password as per your installation**
 
@@ -42,6 +26,6 @@ and the migration will be done.
 **4. Run the app using maven**
 
 ```bash
-mvn spring-boot:run or src/main/java/com.spring.TavernOfGuilds/TavernOfGuildsApplication:run
+mvn spring-boot:run or src/main/java/com.spring.employee-list-api/employee-list-api:run
 ```
 The app will start running at <http://localhost:8080>
