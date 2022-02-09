@@ -7,6 +7,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -18,9 +19,10 @@ public class SpringFoxConfig {
         return new Docket(DocumentationType.OAS_30)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("sergioruy.employeelistapi"))
-                .paths(PathSelectors.ant("/api/v1/employees/*"))
+                .paths(PathSelectors.any())
                 .build()
-                .apiInfo(apiInfo());
+                .apiInfo(apiInfo())
+                .tags(new Tag("Employees", "Manager all Registers"));
     }
 
     public ApiInfo apiInfo() {

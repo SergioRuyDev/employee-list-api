@@ -1,5 +1,7 @@
 package sergioruy.employeelistapi.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(tags = "Employees")
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1")
 @CrossOrigin(origins = "*")
 public class EmployeeController {
 
@@ -20,18 +23,21 @@ public class EmployeeController {
     private EmployeeRepository employeeRepository;
 
     // get all employees
+    @ApiOperation("List of employees")
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
     // create employee rest api
-    @PostMapping("/employees/new")
+    @ApiOperation("Register a new employee")
+    @PostMapping("/employees")
     public Employee createEmployee(@RequestBody Employee employee) {
         return employeeRepository.save(employee);
     }
 
     // get employee by id
+    @ApiOperation("Search a employee by ID")
     @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
         Employee employee = employeeRepository.findById(id)
@@ -40,6 +46,7 @@ public class EmployeeController {
     }
 
     // update the employee
+    @ApiOperation("Update employee details by ID")
     @PutMapping("/employees/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
         Employee employee = employeeRepository.findById(id)
@@ -54,6 +61,7 @@ public class EmployeeController {
     }
 
     // Delete the employee
+    @ApiOperation("Remove a employee by ID")
     @DeleteMapping("/employees/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id) {
         Employee employee = employeeRepository.findById(id)
