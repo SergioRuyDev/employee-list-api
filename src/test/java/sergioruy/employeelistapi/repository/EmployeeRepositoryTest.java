@@ -16,6 +16,7 @@ class EmployeeRepositoryTest {
     @Autowired
     EmployeeRepository employeeRepository;
 
+    //JUnit test for save Employee operation
     @Test
     public void givenEmployeeObject_whenSave_thenReturnSavedEmployee() {
 
@@ -33,6 +34,7 @@ class EmployeeRepositoryTest {
         assertThat(employeeSaved.getId()).isGreaterThan(0);
     }
 
+    //JUnit test for findAll Employees operation
     @Test
     public void givenListObjects_whenFindAll_thenReturnListOfEmployees() {
 
@@ -59,6 +61,71 @@ class EmployeeRepositoryTest {
         assertThat(employeeList.size()).isEqualTo(2);
     }
 
+    //JUnit test for find Employee by Id operation
+    @Test
+    public void givenEmployeeObject_whenFindEmployeeById_thenReturnEmployee() {
 
+        //given
+        Employee employee1 = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Ruy")
+                .emailId("sergio@gmail.com")
+                .build();
+
+        employeeRepository.save(employee1);
+
+        //when
+        employeeRepository.findById(employee1.getId()).get();
+
+        //then
+        assertThat(employee1).isNotNull();
+
+    }
+
+
+    //JUnit test for find Employee by email operation
+    @Test
+    public void givenEmployeeEmail_whenFindByEmail_thenReturnEmployeeObject() {
+
+        //given
+        Employee employee1 = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Junior")
+                .emailId("sergio@gmail.com")
+                .build();
+
+        employeeRepository.save(employee1);
+        //when
+        Employee employee = employeeRepository.findByEmailId(employee1.getEmailId()).get();
+
+        //then
+        assertThat(employee).isNotNull();
+        assertThat(employee.getEmailId()).isEqualTo("sergio@gmail.com");
+
+    }
+
+    @Test
+    public void givenEmployeeObject_whenUpdateEmployee_thenReturnUpdatedEmployee() {
+
+        //given
+        Employee employee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Junior")
+                .emailId("sergio@gmail.com")
+                .build();
+
+        employeeRepository.save(employee);
+
+        //when
+        Employee employeeSaved = employeeRepository.findById(employee.getId()).get();
+        employeeSaved.setEmailId("junior@gmail.com");
+        employeeSaved.setLastName("Ruy");
+        Employee updatedEmployee = employeeRepository.save(employeeSaved);
+
+        //then
+        assertThat(updatedEmployee.getEmailId()).isEqualTo("junior@gmail.com");
+        assertThat(updatedEmployee.getLastName()).isEqualTo("Ruy");
+
+    }
 
 }
