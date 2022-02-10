@@ -3,7 +3,6 @@ package sergioruy.employeelistapi.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 import sergioruy.employeelistapi.model.Employee;
 
 import java.util.Optional;
@@ -27,7 +26,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     // define custom query using native SQL with named params
     @Query(value = "select * from employees e where e.first_name =:firstName and e.last_name =:lastName", nativeQuery = true)
     Employee findByNativeSQLNamed(@Param("firstName") String firstName, @Param("lastName") String lastName);
-
 
 
 
