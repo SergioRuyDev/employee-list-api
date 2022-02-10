@@ -35,12 +35,12 @@ class EmployeeRepositoryTest {
     @Test
     public void givenEmployeeObject_whenSave_thenReturnSavedEmployee() {
 
-//        //given
-//        Employee employee = Employee.builder()
-//                .firstName("Sergio")
-//                .lastName("Ruy")
-//                .emailId("sergio@gmail.com")
-//                .build();
+        //given
+        Employee employee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Ruy")
+                .emailId("sergio@gmail.com")
+                .build();
         //when
         Employee employeeSaved = employeeRepository.save(employee);
 
@@ -55,18 +55,18 @@ class EmployeeRepositoryTest {
     public void givenListObjects_whenFindAll_thenReturnListOfEmployees() {
 
         //given
-//        Employee employee = Employee.builder()
-//                .firstName("Sergio")
-//                .lastName("Ruy")
-//                .emailId("sergio@gmail.com")
-//                .build();
+        Employee employee1 = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Ruy")
+                .emailId("sergio@gmail.com")
+                .build();
 
         Employee employee2 = Employee.builder()
                 .firstName("John")
                 .lastName("Cena")
                 .emailId("john@gmail.com")
                 .build();
-        employeeRepository.save(employee);
+        employeeRepository.save(employee1);
         employeeRepository.save(employee2);
 
         //when
@@ -83,19 +83,19 @@ class EmployeeRepositoryTest {
     public void givenEmployeeObject_whenFindEmployeeById_thenReturnEmployee() {
 
         //given
-//        Employee employee = Employee.builder()
-//                .firstName("Sergio")
-//                .lastName("Ruy")
-//                .emailId("sergio@gmail.com")
-//                .build();
+        Employee employee1 = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Ruy")
+                .emailId("sergio@gmail.com")
+                .build();
 
-        employeeRepository.save(employee);
+        employeeRepository.save(employee1);
 
         //when
-        Employee employeeDB = employeeRepository.findById(employee.getId()).get();
+        employeeRepository.findById(employee1.getId()).get();
 
         //then
-        assertThat(employeeDB).isNotNull();
+        assertThat(employee1).isNotNull();
 
     }
 
@@ -106,19 +106,19 @@ class EmployeeRepositoryTest {
     public void givenEmployeeEmail_whenFindByEmail_thenReturnEmployeeObject() {
 
         //given
-//        Employee employee = Employee.builder()
-//                .firstName("Sergio")
-//                .lastName("Junior")
-//                .emailId("sergio@gmail.com")
-//                .build();
+        Employee employee1 = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Junior")
+                .emailId("sergio@gmail.com")
+                .build();
 
-        employeeRepository.save(employee);
+        employeeRepository.save(employee1);
         //when
-        Employee employeeDB = employeeRepository.findByEmailId(employee.getEmailId()).get();
+        Employee employee = employeeRepository.findByEmailId(employee1.getEmailId()).get();
 
         //then
-        assertThat(employeeDB).isNotNull();
-        assertThat(employeeDB.getEmailId()).isEqualTo("sergio@gmail.com");
+        assertThat(employee).isNotNull();
+        assertThat(employee.getEmailId()).isEqualTo("sergio@gmail.com");
 
     }
 
@@ -128,11 +128,11 @@ class EmployeeRepositoryTest {
     public void givenEmployeeObject_whenUpdateEmployee_thenReturnUpdatedEmployee() {
 
         //given
-//        Employee employee = Employee.builder()
-//                .firstName("Sergio")
-//                .lastName("Junior")
-//                .emailId("sergio@gmail.com")
-//                .build();
+        Employee employee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Junior")
+                .emailId("sergio@gmail.com")
+                .build();
 
         employeeRepository.save(employee);
 
@@ -154,16 +154,16 @@ class EmployeeRepositoryTest {
     public void givenEmployeeObject_whenDelete_thenRemoveEmployee() {
 
         //given
-//        Employee employee = Employee.builder()
-//                .firstName("Sergio")
-//                .lastName("Junior")
-//                .emailId("sergio@gmail.com")
-//                .build();
+        Employee employee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Junior")
+                .emailId("sergio@gmail.com")
+                .build();
 
         employeeRepository.save(employee);
 
         //when
-        employeeRepository.deleteById(employee.getId());
+        employeeRepository.delete(employee);
         Optional<Employee> employeeOptional = employeeRepository.findById(employee.getId());
 
         //then
@@ -175,7 +175,7 @@ class EmployeeRepositoryTest {
     @DisplayName("JUnit test for custom query using JPQL with index")
     @Test
     public void givenFirstNameAndLastName_whenFindByJPQL_thenReturnEmployeeObject() {
-    // JPQL cannot instance outside of the scope
+
         //given
         Employee employee = Employee.builder()
                 .firstName("Sergio")
@@ -225,11 +225,11 @@ class EmployeeRepositoryTest {
     public void givenFirstNameAndLastName_whenFindByNativeSQL_thenReturnEmployeeObject() {
 
         //given
-//        Employee employee = Employee.builder()
-//                .firstName("Sergio")
-//                .lastName("Junior")
-//                .emailId("sergio@gmail.com")
-//                .build();
+        Employee employee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Junior")
+                .emailId("sergio@gmail.com")
+                .build();
 
         employeeRepository.save(employee);
 //        String firstName = "Sergio";
@@ -249,11 +249,11 @@ class EmployeeRepositoryTest {
     public void givenFirstNameAndLastName_whenFindByNativeSQLNamedParam_thenReturnEmployeeObject() {
 
         //given
-//        Employee employee = Employee.builder()
-//                .firstName("Sergio")
-//                .lastName("Junior")
-//                .emailId("sergio@gmail.com")
-//                .build();
+        Employee employee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Junior")
+                .emailId("sergio@gmail.com")
+                .build();
 
         employeeRepository.save(employee);
 //        String firstName = "Sergio";
@@ -267,4 +267,3 @@ class EmployeeRepositoryTest {
 
     }
 
-}
