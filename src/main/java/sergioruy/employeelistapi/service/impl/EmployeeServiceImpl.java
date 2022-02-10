@@ -1,5 +1,7 @@
 package sergioruy.employeelistapi.service.impl;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sergioruy.employeelistapi.exception.ResourceNotFoundException;
@@ -9,11 +11,12 @@ import sergioruy.employeelistapi.service.EmployeeService;
 
 import java.util.Optional;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Autowired
-    EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
 
     @Override
     public Employee saveEmployee(Employee employee) {
