@@ -1,11 +1,13 @@
 package sergioruy.employeelistapi.repository;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import sergioruy.employeelistapi.model.Employee;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +19,7 @@ class EmployeeRepositoryTest {
     EmployeeRepository employeeRepository;
 
     //JUnit test for save Employee operation
+    @DisplayName("JUnit test for save Employee operation")
     @Test
     public void givenEmployeeObject_whenSave_thenReturnSavedEmployee() {
 
@@ -35,6 +38,7 @@ class EmployeeRepositoryTest {
     }
 
     //JUnit test for findAll Employees operation
+    @DisplayName("JUnit test for findAll Employees operation")
     @Test
     public void givenListObjects_whenFindAll_thenReturnListOfEmployees() {
 
@@ -62,6 +66,7 @@ class EmployeeRepositoryTest {
     }
 
     //JUnit test for find Employee by Id operation
+    @DisplayName("JUnit test for find Employee by Id operation")
     @Test
     public void givenEmployeeObject_whenFindEmployeeById_thenReturnEmployee() {
 
@@ -84,6 +89,7 @@ class EmployeeRepositoryTest {
 
 
     //JUnit test for find Employee by email operation
+    @DisplayName("JUnit test for find Employee by email operation")
     @Test
     public void givenEmployeeEmail_whenFindByEmail_thenReturnEmployeeObject() {
 
@@ -104,6 +110,8 @@ class EmployeeRepositoryTest {
 
     }
 
+    //JUnit test for Update Employee operation
+    @DisplayName("JUnit test for Update Employee operation")
     @Test
     public void givenEmployeeObject_whenUpdateEmployee_thenReturnUpdatedEmployee() {
 
@@ -125,6 +133,77 @@ class EmployeeRepositoryTest {
         //then
         assertThat(updatedEmployee.getEmailId()).isEqualTo("junior@gmail.com");
         assertThat(updatedEmployee.getLastName()).isEqualTo("Ruy");
+
+    }
+
+    //JUnit test for delete Employee operation
+    @DisplayName("JUnit test for delete Employee operation")
+    @Test
+    public void givenEmployeeObject_whenDelete_thenRemoveEmployee() {
+
+        //given
+        Employee employee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Junior")
+                .emailId("sergio@gmail.com")
+                .build();
+
+        employeeRepository.save(employee);
+
+        //when
+        employeeRepository.delete(employee);
+        Optional<Employee> employeeOptional = employeeRepository.findById(employee.getId());
+
+        //then
+        assertThat(employeeOptional).isEmpty();
+
+    }
+
+    // JUnit test for custom query using JPQL with index
+    @DisplayName("JUnit test for custom query using JPQL with index")
+    @Test
+    public void givenFirstNameAndLastName_whenFindByJPQL_thenReturnEmployeeObject() {
+
+        //given
+        Employee employee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Junior")
+                .emailId("sergio@gmail.com")
+                .build();
+
+        employeeRepository.save(employee);
+        String firstName = "Sergio";
+        String lastName = "Junior";
+
+        //when
+        Employee savedEmployee = employeeRepository.findByJPQL(firstName, lastName);
+
+        //then
+        assertThat(savedEmployee).isNotNull();
+
+    }
+
+    // JUnit test for custom query using JPQL with named params
+    @DisplayName("JUnit test for custom query using JPQL with named params")
+    @Test
+    public void givenFirstNameAndLastName_whenFindByJPQLNamedParams_thenReturnEmployeeObject() {
+
+        //given
+        Employee employee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Junior")
+                .emailId("sergio@gmail.com")
+                .build();
+
+        employeeRepository.save(employee);
+        String firstName = "Sergio";
+        String lastName = "Junior";
+
+        //when
+        Employee savedEmployee = employeeRepository.findByJPQLNamedParams(firstName, lastName);
+
+        //then
+        assertThat(savedEmployee).isNotNull();
 
     }
 
