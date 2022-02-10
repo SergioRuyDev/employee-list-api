@@ -1,32 +1,40 @@
 package sergioruy.employeelistapi.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import sergioruy.employeelistapi.model.Employee;
 import sergioruy.employeelistapi.repository.EmployeeRepository;
-import sergioruy.employeelistapi.service.EmployeeService;
 import sergioruy.employeelistapi.service.impl.EmployeeServiceImpl;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.BDDMockito.given;
 
+@ExtendWith(MockitoExtension.class)
 class EmployeeServiceTest {
 
+    @Mock
     private EmployeeRepository employeeRepository;
-    private EmployeeService employeeService;
 
+    @InjectMocks
+    private EmployeeServiceImpl employeeService;
 
+    private Employee employee;
 
     @BeforeEach
-    void setUp() {
-
-        employeeRepository = Mockito.mock(EmployeeRepository.class);
-        employeeService = new EmployeeServiceImpl(employeeRepository);
+    public void setUp() {
+        employee = Employee.builder()
+                .id(1L)
+                .firstName("Sergio")
+                .lastName("Ruy")
+                .emailId("sergio@gmail.com")
+                .build();
 
     }
 
@@ -35,14 +43,8 @@ class EmployeeServiceTest {
     @Test
     public void givenEmployeeObject_whenSaveEmployee_thenReturnEmployeeObject() {
         //given
-        Employee employee = Employee.builder()
-                .id(1L)
-                .firstName("Sergio")
-                .lastName("Ruy")
-                .emailId("sergio@gmail.com")
-                .build();
-        BDDMockito.given(employeeRepository.findByEmailId(employee.getEmailId())).willReturn(Optional.empty());
-        BDDMockito.given(employeeRepository.save(employee)).willReturn(employee);
+        given(employeeRepository.findByEmailId(employee.getEmailId())).willReturn(Optional.empty());
+        given(employeeRepository.save(employee)).willReturn(employee);
 
         System.out.println(employeeRepository); // make sure is mocked
         System.out.println(employeeService); // make sure about is mocked
@@ -52,7 +54,7 @@ class EmployeeServiceTest {
 
         System.out.println(savedEmployee); // just for make sure that are not null
         //then
-        Assertions.assertThat(savedEmployee).isNotNull();
+        assertThat(savedEmployee).isNotNull();
 
     }
 }
