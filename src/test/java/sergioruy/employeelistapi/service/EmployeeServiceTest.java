@@ -1,6 +1,5 @@
 package sergioruy.employeelistapi.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -107,8 +106,8 @@ class EmployeeServiceTest {
         List<Employee> employeeList = employeeService.getAllEmployees();
 
         //then
-        Assertions.assertThat(employeeList).isNotNull();
-        Assertions.assertThat(employeeList.size()).isEqualTo(2);
+        assertThat(employeeList).isNotNull();
+        assertThat(employeeList.size()).isEqualTo(2);
     }
 
     //JUnit test for getAllEmployees method (negative scenario)
@@ -131,7 +130,42 @@ class EmployeeServiceTest {
         List<Employee> employeeList = employeeService.getAllEmployees();
 
         //then
-        Assertions.assertThat(employeeList).isEmpty();
-        Assertions.assertThat(employeeList.size()).isEqualTo(0);
+        assertThat(employeeList).isEmpty();
+        assertThat(employeeList.size()).isEqualTo(0);
+    }
+
+    //JUnit test for getEmployeeById method operation
+    @DisplayName("JUnit test for getEmployeeById method operation")
+    @Test
+    public void givenEmployeeId_whenGetEmployeeById_thenReturnEmployeeObject() {
+
+        //given
+        given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
+
+        //when
+        Employee savedEmployee = employeeService.getEmployeeById(employee.getId()).get();
+
+        //then
+        assertThat(savedEmployee).isNotNull();
+
+    }
+
+    //JUnit test for updateEmployee method
+    @DisplayName("JUnit test for updateEmployee method")
+    @Test
+    public void givenEmployeeObject_whenUpdateEmployee_thenReturnUpdatedEmployee() {
+
+        //given
+        given(employeeRepository.save(employee)).willReturn(employee);
+        employee.setEmailId("junior@gmail.com");
+        employee.setFirstName("Steve");
+
+        //when
+        Employee updatedEmployee = employeeService.updateEmployee(employee);
+
+        //then
+        assertThat(updatedEmployee.getEmailId()).isEqualTo("junior@gmail.com");
+        assertThat(updatedEmployee.getFirstName()).isEqualTo("Steve");
+
     }
 }
