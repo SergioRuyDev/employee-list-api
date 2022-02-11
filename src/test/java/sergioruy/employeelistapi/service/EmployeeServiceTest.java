@@ -172,7 +172,7 @@ class EmployeeServiceTest {
     //JUnit test for delete employee by Id
     @DisplayName("JUnit test for delete employee by Id")
     @Test
-    public void givenEmployeeeId_whenDeleteEmployee_thenNothing() {
+    public void givenEmployeeId_whenDeleteEmployee_thenNothing() {
 
         //given
         long employeeId = 1L;
