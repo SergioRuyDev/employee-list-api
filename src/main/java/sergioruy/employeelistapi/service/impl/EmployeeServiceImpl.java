@@ -9,6 +9,7 @@ import sergioruy.employeelistapi.model.Employee;
 import sergioruy.employeelistapi.repository.EmployeeRepository;
 import sergioruy.employeelistapi.service.EmployeeService;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -27,5 +28,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return employeeRepository.save(employee);
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
     }
 }
