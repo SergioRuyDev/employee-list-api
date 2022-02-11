@@ -1,5 +1,6 @@
 package sergioruy.employeelistapi.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,10 +13,12 @@ import sergioruy.employeelistapi.model.Employee;
 import sergioruy.employeelistapi.repository.EmployeeRepository;
 import sergioruy.employeelistapi.service.impl.EmployeeServiceImpl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -92,7 +95,7 @@ class EmployeeServiceTest {
         //given
 
         Employee employee1 = Employee.builder()
-                .id(1L)
+                .id(2L)
                 .firstName("Tony")
                 .lastName("Stark")
                 .emailId("tony@gmail.com")
@@ -104,7 +107,31 @@ class EmployeeServiceTest {
         List<Employee> employeeList = employeeService.getAllEmployees();
 
         //then
-        assertThat(employeeList).isNotNull();
-        assertThat(employeeList.size()).isEqualTo(2);
+        Assertions.assertThat(employeeList).isNotNull();
+        Assertions.assertThat(employeeList.size()).isEqualTo(2);
+    }
+
+    //JUnit test for getAllEmployees method (negative scenario)
+    @DisplayName("JUnit test for getAllEmployees method (negative scenario")
+    @Test
+    public void givenEmptyEmployeeList_whenGetAllEmployees_thenReturnEmptyEmployeesList() {
+
+        //given
+
+        Employee employee1 = Employee.builder()
+                .id(2L)
+                .firstName("Tony")
+                .lastName("Stark")
+                .emailId("tony@gmail.com")
+                .build();
+
+        given(employeeRepository.findAll()).willReturn(Collections.emptyList());
+
+        //when
+        List<Employee> employeeList = employeeService.getAllEmployees();
+
+        //then
+        Assertions.assertThat(employeeList).isEmpty();
+        Assertions.assertThat(employeeList.size()).isEqualTo(0);
     }
 }
