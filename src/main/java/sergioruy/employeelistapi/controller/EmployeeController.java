@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import sergioruy.employeelistapi.exception.ResourceNotFoundException;
 import sergioruy.employeelistapi.model.Employee;
 import sergioruy.employeelistapi.repository.EmployeeRepository;
+import sergioruy.employeelistapi.service.EmployeeService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,11 +24,15 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private EmployeeService employeeService;
+
+
     // get all employees
     @ApiOperation("List of employees")
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+        return employeeService.getAllEmployees();
     }
 
     // create employee rest api
@@ -35,14 +40,14 @@ public class EmployeeController {
     @PostMapping("/employees")
     @ResponseStatus(HttpStatus.CREATED)
     public Employee createEmployee(@RequestBody Employee employee) {
-        return employeeRepository.save(employee);
+        return employeeService.saveEmployee(employee);
     }
 
     // get employee by id
     @ApiOperation("Search a employee by ID")
     @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
-        Employee employee = employeeRepository.findById(id)
+        Employee employee = employeeService.getEmployeeById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employ not exist with id : " + id));
         return ResponseEntity.ok(employee);
     }
