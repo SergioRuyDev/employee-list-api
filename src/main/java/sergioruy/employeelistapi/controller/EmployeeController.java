@@ -21,8 +21,6 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
 
     @Autowired
     private EmployeeService employeeService;
