@@ -56,14 +56,14 @@ public class EmployeeController {
     @ApiOperation("Update employee details by ID")
     @PutMapping("/employees/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
-        Employee employee = employeeRepository.findById(id)
+        Employee employee = employeeService.getEmployeeById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employ not exist with id : " + id));
 
         employee.setFirstName(employeeDetails.getFirstName());
         employee.setLastName(employeeDetails.getLastName());
         employee.setEmailId(employeeDetails.getEmailId());
 
-        Employee updateEmployee = employeeRepository.save(employee);
+        Employee updateEmployee = employeeService.saveEmployee(employee);
         return ResponseEntity.ok(updateEmployee);
     }
 
@@ -71,9 +71,9 @@ public class EmployeeController {
     @ApiOperation("Remove a employee by ID")
     @DeleteMapping("/employees/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id) {
-        Employee employee = employeeRepository.findById(id)
+        Employee employee = employeeService.getEmployeeById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employ not exist with id : " + id));
-        employeeRepository.delete(employee);
+        employeeService.deleteEmployee(id);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);

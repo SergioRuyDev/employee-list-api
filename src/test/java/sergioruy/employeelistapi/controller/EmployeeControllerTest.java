@@ -77,10 +77,10 @@ class EmployeeControllerTest {
 
     //  JUnit test for getAll Employees
     @DisplayName("JUnit test for getAll Employees")
-        @Test
-        public void givenListOfEmployees_whenGetAllEmploees_thenReturnEmployeesList() throws Exception {
+    @Test
+    public void givenListOfEmployees_whenGetAllEmploees_thenReturnEmployeesList() throws Exception {
 
-            //given - is a precondition or a setup
+        //given - is a precondition or a setup
         List<Employee> listOfEmployees = new ArrayList<>();
         listOfEmployees.add(Employee.builder().firstName("Sergio").lastName("Ruy").emailId("sergio@gmail.com").build());
         listOfEmployees.add(Employee.builder().firstName("Tony").lastName("Stark").emailId("tony@gmail.com").build());
