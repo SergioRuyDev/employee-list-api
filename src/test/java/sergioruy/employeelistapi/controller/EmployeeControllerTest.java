@@ -20,8 +20,7 @@ import java.util.Optional;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -84,8 +83,8 @@ class EmployeeControllerTest {
                 .content(objectMapper.writeValueAsString(employee)));
 
         // then
-        response.andDo(print()).
-                andExpect(status().isCreated())
+        response.andExpect(status().isCreated())
+                .andDo(print())
                 .andExpect(jsonPath("$.firstName", is(employee.getFirstName())))
                 .andExpect(jsonPath("$.lastName", is(employee.getLastName())))
                 .andExpect(jsonPath("$.emailId", is(employee.getEmailId())));
@@ -109,11 +108,69 @@ class EmployeeControllerTest {
         ResultActions response = mockMvc.perform(get("/api/v1/employees/{id}", employeeId));
 
         //then - verify the result
-        response.andExpect(status().isOk())
-                .andDo(print())
+        response.andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", is(employee.getFirstName())))
                 .andExpect(jsonPath("$.lastName", is(employee.getLastName())))
                 .andExpect(jsonPath("$.emailId", is(employee.getEmailId())));
 
+    }
+
+    //Junit test for Get Employee By Id in Negative scenario
+    @DisplayName("Junit test for Get Employee By Id in Negative scenario")
+    @Test
+    public void givenInvalidEmployeeId_whenGetEmployeeById_thenReturnEmpty() throws Exception {
+
+        //given - is a precondition or a setup
+        long employeeId = 1L;
+        Employee employee = Employee.builder()
+                .firstName("Sergio Ruy")
+                .lastName("Ruy")
+                .emailId("sergio@gmail.com")
+                .build();
+        given(employeeService.getEmployeeById(employeeId)).willReturn(Optional.empty());
+
+        //when - is the action or the behavior we are going to test
+        ResultActions response = mockMvc.perform(get("/api/v1/employees/{id}", employeeId));
+
+        //then - verify the result
+        response.andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    //JUnit test of method update operation - positive scenario
+    @DisplayName("JUnit test of update operation - positive scenario")
+    @Test
+    public void givenUpdatedEmployee_whenUpdateEmployee_thenReturnUpdatedEmployeeObject() throws Exception {
+
+        // given
+        long employeeId = 1L;
+        Employee savedEmployee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Ruy")
+                .emailId("sergio@gmail.com")
+                .build();
+
+        Employee updatedEmployee = Employee.builder()
+                .firstName("Ruy")
+                .lastName("Junior")
+                .emailId("junior@gmail.com")
+                .build();
+
+        given(employeeService.getEmployeeById(employeeId)).willReturn(Optional.of(savedEmployee));
+        given(employeeService.updateEmployee(any(Employee.class)))
+                .willAnswer((invocation) -> invocation.getArgument(0));
+
+        // when
+        ResultActions response = mockMvc.perform(put("/api/v1/employees/{id}", employeeId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedEmployee)));
+
+        // then
+        response.andDo(print()).
+                andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", is(updatedEmployee.getFirstName())))
+                .andExpect(jsonPath("$.lastName", is(updatedEmployee.getLastName())))
+                .andExpect(jsonPath("$.emailId", is(updatedEmployee.getEmailId())));
     }
 }
