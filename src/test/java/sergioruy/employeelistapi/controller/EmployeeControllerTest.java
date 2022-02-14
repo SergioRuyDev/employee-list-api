@@ -173,4 +173,37 @@ class EmployeeControllerTest {
                 .andExpect(jsonPath("$.lastName", is(updatedEmployee.getLastName())))
                 .andExpect(jsonPath("$.emailId", is(updatedEmployee.getEmailId())));
     }
+
+    //JUnit test of method update operation - negative scenario
+    @DisplayName("JUnit test of update operation - negative scenario")
+    @Test
+    public void givenUpdatedEmployee_whenUpdateEmployee_thenReturnStatusNotFound() throws Exception {
+
+        // given
+        long employeeId = 1L;
+        Employee savedEmployee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Ruy")
+                .emailId("sergio@gmail.com")
+                .build();
+
+        Employee updatedEmployee = Employee.builder()
+                .firstName("Ruy")
+                .lastName("Junior")
+                .emailId("junior@gmail.com")
+                .build();
+
+        given(employeeService.getEmployeeById(employeeId)).willReturn(Optional.empty());
+        given(employeeService.updateEmployee(any(Employee.class)))
+                .willAnswer((invocation) -> invocation.getArgument(0));
+
+        // when
+        ResultActions response = mockMvc.perform(put("/api/v1/employees/{id}", employeeId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedEmployee)));
+
+        // then
+        response.andDo(print()).
+                andExpect(status().isNotFound());
+    }
 }
