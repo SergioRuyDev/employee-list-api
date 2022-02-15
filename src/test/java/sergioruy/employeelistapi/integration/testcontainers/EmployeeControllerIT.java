@@ -8,12 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import sergioruy.employeelistapi.model.Employee;
 import sergioruy.employeelistapi.repository.EmployeeRepository;
 
@@ -28,18 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@Testcontainers
-public class EmployeeControllerIT {
-
-    @Container
-    private static MySQLContainer mySQLContainer = new MySQLContainer("mysql:latest");
-    //default username, password and database name is "test" can be changed.
-
-    public static void dynamicPropertySource(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", mySQLContainer::getUsername);
-        registry.add("spring.datasource.password", mySQLContainer::getPassword);
-    }
+public class EmployeeControllerIT extends AbstractionBaseTest{
 
     @Autowired
     private MockMvc mockMvc;
@@ -187,7 +172,7 @@ public class EmployeeControllerIT {
     public void givenUpdatedEmployee_whenUpdateEmployee_thenReturnStatusNotFound() throws Exception {
 
         // given
-        long employeeId = 1L;
+        long employeeId = 10L;
         Employee savedEmployee = Employee.builder()
                 .firstName("Sergio")
                 .lastName("Ruy")
