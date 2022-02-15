@@ -20,6 +20,7 @@ import java.util.Optional;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -167,5 +168,79 @@ public class EmployeeControllerITests {
                 .andExpect(jsonPath("$.firstName", is(updatedEmployee.getFirstName())))
                 .andExpect(jsonPath("$.lastName", is(updatedEmployee.getLastName())))
                 .andExpect(jsonPath("$.emailId", is(updatedEmployee.getEmailId())));
+    }
+
+    //JUnit test of method update operation - negative scenario
+    @DisplayName("JUnit test of update operation - negative scenario")
+    @Test
+    public void givenUpdatedEmployee_whenUpdateEmployee_thenReturnStatusNotFound() throws Exception {
+
+        // given
+        long employeeId = 1L;
+        Employee savedEmployee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Ruy")
+                .emailId("sergio@gmail.com")
+                .build();
+        employeeRepository.save(savedEmployee);
+
+        Employee updatedEmployee = Employee.builder()
+                .firstName("Ruy")
+                .lastName("Junior")
+                .emailId("junior@gmail.com")
+                .build();
+
+
+        // when
+        ResultActions response = mockMvc.perform(put("/api/v1/employees/{id}", employeeId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedEmployee)));
+
+        // then
+        response.andDo(print()).
+                andExpect(status().isNotFound());
+    }
+
+    //Junit test for delete employee in Positive scenario
+    @DisplayName("Junit test for delete employee in Positive scenario")
+    @Test
+    public void givenEmployeeId_whenDeleteEmployee_thenReturnStatusOk() throws Exception {
+
+        //given - is a precondition or a setup
+        Employee savedEmployee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Ruy")
+                .emailId("sergio@gmail.com")
+                .build();
+        employeeRepository.save(savedEmployee);
+
+        //when - is the action or the behavior we are going to test
+        ResultActions response = mockMvc.perform(delete("/api/v1/employees/{id}", savedEmployee.getId()));
+
+        //then - verify the result
+        response.andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    //Junit test for delete employee in Negative scenario
+    @DisplayName("Junit test for delete employee in Negative scenario")
+    @Test
+    public void givenEmployeeId_whenDeleteEmployee_thenReturnNotFound() throws Exception {
+
+        //given - is a precondition or a setup
+        long employeeId = 1L;
+        Employee savedEmployee = Employee.builder()
+                .firstName("Sergio")
+                .lastName("Ruy")
+                .emailId("sergio@gmail.com")
+                .build();
+        employeeRepository.save(savedEmployee);
+
+        //when - is the action or the behavior we are going to test
+        ResultActions response = mockMvc.perform(delete("/api/v1/employees/{id}", employeeId));
+
+        //then - verify the result
+        response.andDo(print())
+                .andExpect(status().isNotFound());
     }
 }
