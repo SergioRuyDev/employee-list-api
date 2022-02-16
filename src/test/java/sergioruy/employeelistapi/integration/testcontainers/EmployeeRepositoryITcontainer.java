@@ -1,4 +1,4 @@
-package sergioruy.employeelistapi.integration;
+package sergioruy.employeelistapi.integration.testcontainers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class EmployeeRepositoryITest {
+class EmployeeRepositoryITcontainer extends AbstractionContainerBaseTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;

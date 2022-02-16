@@ -1,4 +1,4 @@
-package sergioruy.employeelistapi.integration.testcontainers;
+package sergioruy.employeelistapi.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class EmployeeControllerIT extends AbstractionBaseTest{
+public class EmployeeControllerIntegrTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -172,7 +172,7 @@ public class EmployeeControllerIT extends AbstractionBaseTest{
     public void givenUpdatedEmployee_whenUpdateEmployee_thenReturnStatusNotFound() throws Exception {
 
         // given
-        long employeeId = 10L;
+        long employeeId = 1L;
         Employee savedEmployee = Employee.builder()
                 .firstName("Sergio")
                 .lastName("Ruy")
