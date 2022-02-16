@@ -36,6 +36,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll();
     }
 
+//    @Override
+//    public Optional<Employee> getEmployeeById(long id) {
+//        return Optional.ofNullable(employeeRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Employ not exist with id : " + id)));
+//    }
+
     @Override
     public Optional<Employee> getEmployeeById(long id) {
         return employeeRepository.findById(id);

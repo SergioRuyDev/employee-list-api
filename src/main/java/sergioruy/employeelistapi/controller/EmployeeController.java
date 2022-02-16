@@ -26,20 +26,25 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
 
-    // get all employees
     @ApiOperation("List of employees")
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
 
-    // create employee rest api
     @ApiOperation("Register a new employee")
     @PostMapping("/employees")
     @ResponseStatus(HttpStatus.CREATED)
     public Employee createEmployee(@RequestBody Employee employee) {
         return employeeService.saveEmployee(employee);
     }
+
+//    @ApiOperation("Search a employee by ID")
+//    @GetMapping("/employees/{id}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public Employee getEmployeeById(@PathVariable Long id) {
+//        return Employee employee = employeeService.getEmployeeById(id);
+//    }
 
     // get employee by id
     @ApiOperation("Search a employee by ID")
