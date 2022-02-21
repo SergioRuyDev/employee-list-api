@@ -50,8 +50,7 @@ public class EmployeeController {
     @ApiOperation("Search a employee by ID")
     @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
-        Employee employee = employeeService.getEmployeeById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Employ not exist with id : " + id));
+        Employee employee = employeeService.getEmployeeById(id).get();
         return ResponseEntity.ok(employee);
     }
 
