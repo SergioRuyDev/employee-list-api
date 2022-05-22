@@ -3,6 +3,7 @@ package sergioruy.employeelistapi.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Builder
 @AllArgsConstructor
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "employees")
-public class Employee {
+public class Employee implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
