@@ -15,12 +15,17 @@ import sergioruy.employeelistapi.repository.EmployeeRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -188,13 +193,13 @@ public class EmployeeControllerIntegrTests {
 
 
         // when
-        ResultActions response = mockMvc.perform(put("/api/v1/employees/{id}", employeeId)
+        ResultActions response = mockMvc.perform(put("/api/v1/employees/{id}", Optional.empty())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updatedEmployee)));
 
         // then
         response.andDo(print()).
-                andExpect(status().isNotFound());
+                andExpect(status().isBadRequest());
     }
 
     //Junit test for delete employee in Positive scenario
