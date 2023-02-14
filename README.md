@@ -1,5 +1,5 @@
 # employee-list-api
-employee list backend app
+employee list backend app with Test Contaneirs, Unit Tests and Integration Test.
 
 ## Description of Project
 
@@ -7,7 +7,13 @@ RESTful API for a Employee list web application.
 
 ## Functionalities
 
-:bell: Full CRUD API
+:bell: Full CRUD API with Spring boot and Mysql Database
+
+:bell: Unit Tests with Junit, Mockito and BDD Pattern
+
+:bell: Integrations Tests with Test Containers
+
+:bell: OpenApi Swagger Documentation
 
 ## Steps and Requirements to build and run the Project
 
