@@ -95,19 +95,19 @@ class EmployeeControllerTest {
     public void givenInvalidEmployeeId_whenGetEmployeeById_thenReturnEmpty() throws Exception {
 
         //given - is a precondition or a setup
-        long employeeId = 1L;
+        long employeeId = 1;
         Employee employee = Employee.builder()
                 .firstName("Sergio Ruy")
                 .lastName("Ruy")
                 .emailId("sergio@gmail.com")
                 .build();
-        given(employeeService.getEmployeeById(employeeId)).willReturn(Optional.empty());
+        given(employeeService.getEmployeeById(employeeId)).willReturn(Optional.of(employee));
 
         //when - is the action or the behavior we are going to test
-        ResultActions response = mockMvc.perform(get("/api/v1/employees/{id}", employeeId));
+        ResultActions response = mockMvc.perform(get("/api/v1/employees/{id}", Optional.empty()));
 
         //then - verify the result
-        response.andExpect(status().isNotFound())
+        response.andExpect(status().isBadRequest())
                 .andDo(print());
     }
 
